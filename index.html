@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark light">
+  <title>Anatomy 3D</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231a2434'/%3E%3Cpath d='M16 5c3 0 5 2 5 5 0 2-1 3-2 4l1 3-2 1v7h-4v-7l-2-1 1-3c-1-1-2-2-2-4 0-3 2-5 5-5z' fill='%23e9dfc6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    // set the theme before first paint
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('anatomy-theme'); } catch (e) {}
+      if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M10.6 5.1A10 10 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3 3.9M6.6 6.6A16.6 16.6 0 0 0 2 12s3.5 7 10 7c1.7 0 3.2-.4 4.5-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></symbol>
+    <symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></symbol>
+    <symbol id="i-isolate" viewBox="0 0 24 24"><rect x="8" y="8" width="8" height="8" rx="1.5"/><path d="M3 8V5a2 2 0 0 1 2-2h3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3"/></symbol>
+    <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.5 12.5l-8 8a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.7 7.7a1 1 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></symbol>
+    <symbol id="i-section" viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M5 7l7-4 7 4v3H5zM5 14h14v3l-7 4-7-4z" opacity=".6"/></symbol>
+    <symbol id="i-quiz" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1 1-1.1 1.8M12 17h.01"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13.5A9 9 0 1 1 10.5 3a7 7 0 0 0 10.5 10.5z"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7.5 14h9"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+    <symbol id="i-opacity" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+  </defs>
+</svg>
+
+<div id="app" data-panel="open">
+  <header id="appbar">
+    <button id="btn-panel" class="icon-btn" aria-label="Toggle parts panel" aria-controls="panel" aria-expanded="true"><svg><use href="#i-menu"/></svg></button>
+    <div class="brand" aria-label="Anatomy 3D"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M16 5c3 0 5 2 5 5 0 2-1 3-2 4l1 3-2 1v7h-4v-7l-2-1 1-3c-1-1-2-2-2-4 0-3 2-5 5-5z"/></svg><span>Anatomy<b>3D</b></span></div>
+    <nav id="presets" aria-label="View presets"></nav>
+    <div class="spacer"></div>
+    <button id="btn-quiz" class="pill accent"><svg><use href="#i-quiz"/></svg><span>Quiz</span><kbd>Q</kbd></button>
+    <button id="btn-theme" class="icon-btn" aria-label="Switch theme" title="Switch theme (T)"><svg><use href="#i-sun"/></svg></button>
+    <button id="btn-help" class="icon-btn" aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)"><svg><use href="#i-help"/></svg></button>
+  </header>
+
+  <aside id="panel" aria-label="Parts">
+    <div class="search">
+      <svg><use href="#i-search"/></svg>
+      <input id="search" type="search" placeholder="Search parts, functions&hellip;" autocomplete="off" spellcheck="false" aria-label="Search parts">
+      <kbd>/</kbd>
+    </div>
+    <div id="search-meta" class="meta" aria-live="polite"></div>
+    <div id="tree" role="tree"></div>
+    <div id="tree-empty" class="empty" hidden>No parts match. Try a shorter word such as &ldquo;nerve&rdquo; or &ldquo;knee&rdquo;.</div>
+  </aside>
+  <div id="scrim" hidden></div>
+
+  <main id="stage">
+    <canvas id="c" tabindex="0" aria-label="3D human anatomy model. Drag to rotate, scroll to zoom, click a part for details."></canvas>
+    <div id="label-layer"></div>
+    <div id="tooltip" role="tooltip" hidden></div>
+
+    <div id="toolbar" role="toolbar" aria-label="View tools">
+      <button id="tb-reset" class="tool" title="Reset view (R)"><svg><use href="#i-reset"/></svg><span>Reset</span></button>
+      <span class="sep"></span>
+      <div class="seg" role="group" aria-label="Standard views">
+        <button data-view="front" title="Front view">Front</button><button data-view="back" title="Back view">Back</button><button data-view="left" title="Left side">Left</button><button data-view="right" title="Right side">Right</button>
+      </div>
+      <span class="sep"></span>
+      <button id="tb-labels" class="tool" aria-pressed="false" title="Show labels with leader lines (L)"><svg><use href="#i-tag"/></svg><span>Labels</span></button>
+      <button id="tb-opacity" class="tool" aria-expanded="false" title="Transparency"><svg><use href="#i-opacity"/></svg><span>X-ray</span></button>
+      <button id="tb-section" class="tool" aria-pressed="false" aria-expanded="false" title="Cross-section (X)"><svg><use href="#i-section"/></svg><span>Section</span></button>
+    </div>
+
+    <div id="pop-opacity" class="popover" hidden>
+      <label for="opacity"><span>Overall opacity</span><output id="opacity-out">100%</output></label>
+      <input id="opacity" type="range" min="10" max="100" step="1" value="100">
+    </div>
+    <div id="pop-section" class="popover" hidden>
+      <div class="pop-title">Cross-section</div>
+      <div class="seg full" id="section-axis" role="group" aria-label="Plane">
+        <button data-axis="x" class="on">Sagittal</button><button data-axis="z">Coronal</button><button data-axis="y">Transverse</button>
+      </div>
+      <label for="section-pos"><span>Position</span><output id="section-out"></output></label>
+      <input id="section-pos" type="range" min="0" max="1000" step="1" value="500">
+      <div class="row-btns">
+        <button id="section-flip">Flip side</button>
+        <button id="section-off">Remove cut</button>
+      </div>
+    </div>
+
+    <section id="info" class="card" hidden aria-live="polite">
+      <header>
+        <span class="dot" id="i-dot"></span>
+        <h2 id="i-name"></h2>
+        <button id="info-close" class="icon-btn small" aria-label="Close details"><svg><use href="#i-close"/></svg></button>
+      </header>
+      <div class="chips" id="i-chips"></div>
+      <div class="sides" id="i-sides" hidden>
+        <button data-side="l">Left</button><button data-side="r">Right</button>
+      </div>
+      <div class="block"><h3>What it is</h3><p id="i-desc"></p></div>
+      <div class="block"><h3>What it does</h3><p id="i-fn"></p></div>
+      <div class="block" id="i-rel-wrap"><h3>Nearby</h3><div class="chips links" id="i-rel"></div></div>
+      <footer>
+        <button id="i-focus" class="btn"><svg><use href="#i-focus"/></svg>Focus <kbd>F</kbd></button>
+        <button id="i-isolate" class="btn" aria-pressed="false"><svg><use href="#i-isolate"/></svg>Isolate <kbd>I</kbd></button>
+        <button id="i-hide" class="btn"><svg><use href="#i-eye-off"/></svg>Hide <kbd>H</kbd></button>
+      </footer>
+    </section>
+
+    <section id="quiz" class="card" hidden aria-label="Quiz">
+      <header>
+        <h2>Quiz</h2>
+        <div class="seg" id="quiz-mode" role="group" aria-label="Quiz mode">
+          <button data-mode="find" class="on">Find it</button><button data-mode="name">Name it</button>
+        </div>
+        <button id="quiz-close" class="icon-btn small" aria-label="Close quiz"><svg><use href="#i-close"/></svg></button>
+      </header>
+      <div id="quiz-setup">
+        <label class="field"><span>Practice</span>
+          <select id="quiz-scope" aria-label="Quiz scope">
+            <option value="visible">Parts I can see now</option>
+            <option value="skeleton">Skeleton</option>
+            <option value="muscles">Muscles</option>
+            <option value="organs">Organs</option>
+            <option value="circulatory">Circulatory</option>
+            <option value="nervous">Nervous system</option>
+            <option value="all">Everything</option>
+          </select>
+        </label>
+        <p class="muted small" id="quiz-howto"></p>
+        <button id="quiz-start" class="btn primary">Start 10 questions</button>
+      </div>
+      <div id="quiz-play" hidden>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><i id="quiz-bar"></i></div>
+        <div class="q-stats"><span id="q-count">1 / 10</span><span id="q-score">0 pts</span><span id="q-streak"></span></div>
+        <p id="q-prompt" class="q-prompt"></p>
+        <div id="q-choices" class="choices"></div>
+        <p id="q-feedback" class="feedback" aria-live="polite"></p>
+        <footer>
+          <button id="q-hint" class="btn">Hint</button>
+          <button id="q-skip" class="btn">Skip</button>
+          <button id="q-next" class="btn primary" hidden>Next <kbd>&#8629;</kbd></button>
+        </footer>
+      </div>
+      <div id="quiz-done" hidden>
+        <div class="big" id="done-score"></div>
+        <p id="done-line" class="muted"></p>
+        <div id="done-missed"></div>
+        <div class="row-btns">
+          <button id="done-again" class="btn primary">Play again</button>
+          <button id="done-review" class="btn">Review missed</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="help" class="dialog" hidden role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="dialog-card">
+        <header><h2 id="help-title">Keyboard &amp; touch</h2><button id="help-close" class="icon-btn small" aria-label="Close"><svg><use href="#i-close"/></svg></button></header>
+        <div class="keys">
+          <div><kbd>/</kbd><span>Search parts</span></div>
+          <div><kbd>1</kbd>&ndash;<kbd>7</kbd><span>View presets</span></div>
+          <div><kbd>F</kbd><span>Focus selected part</span></div>
+          <div><kbd>I</kbd><span>Isolate / restore</span></div>
+          <div><kbd>H</kbd><span>Hide selected</span></div>
+          <div><kbd>Shift</kbd>+<kbd>H</kbd><span>Show everything again</span></div>
+          <div><kbd>R</kbd><span>Reset view</span></div>
+          <div><kbd>L</kbd><span>Toggle labels</span></div>
+          <div><kbd>X</kbd><span>Cross-section</span></div>
+          <div><kbd>Q</kbd><span>Quiz</span></div>
+          <div><kbd>T</kbd><span>Light / dark theme</span></div>
+          <div><kbd>P</kbd><span>Parts panel</span></div>
+          <div><kbd>Esc</kbd><span>Deselect / close</span></div>
+        </div>
+        <p class="muted small">Mouse: drag to orbit, right-drag or Shift-drag to pan, wheel to zoom, double-click a part to focus it. Touch: one finger orbits, two fingers pan and pinch-zoom, double-tap focuses.</p>
+        <p class="muted small credits">Model: procedurally sculpted for this project from signed-distance primitives (no third-party meshes). Rendering by three.js r128 (MIT). Educational illustration, not a medical reference.</p>
+      </div>
+    </div>
+
+    <div id="toasts" aria-live="polite"></div>
+
+    <div id="loading" role="status">
+      <div class="loader">
+        <svg class="logo big" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9"/><path d="M16 5c3 0 5 2 5 5 0 2-1 3-2 4l1 3-2 1v7h-4v-7l-2-1 1-3c-1-1-2-2-2-4 0-3 2-5 5-5z"/></svg>
+        <div class="load-title">Anatomy 3D</div>
+        <div class="bar"><i id="load-bar"></i></div>
+        <div class="load-msg" id="load-msg">Preparing&hellip;</div>
+      </div>
+    </div>
+    <div id="nogl" hidden>
+      <h2>3D view unavailable</h2>
+      <p id="nogl-msg">WebGL could not start in this browser.</p>
+    </div>
+  </main>
+</div>
+
+<script src="lib/three.min.js"></script>
+<script src="lib/OrbitControls.js"></script>
+<script src="js/data.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+<script>
+  if (/[?&]selftest\b/.test(location.search)) { var s = document.createElement('script'); s.src = 'js/selftest.js'; document.body.appendChild(s); }
+</script>
+</body>
+</html>
